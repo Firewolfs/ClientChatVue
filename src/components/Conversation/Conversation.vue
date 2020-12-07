@@ -3,7 +3,7 @@
 
     <div class="conversation-header">
       <div  v-if="conversation.type === 'one_to_one'">
-        <img class="avatar" src="https://source.unsplash.com/FUcupae92P4/100x100"/>
+        <img class="avatar" :src="getUserPicture(conversation.participants[1])"/>
       </div>
       <div v-else class="avatar">
         <i class="ui users icon"></i>
@@ -379,7 +379,7 @@ export default {
     this.scrollBottom();
   },
   computed: {
-    ...mapGetters(["conversation"])
+    ...mapGetters(["conversation", "users"])
   },
   methods: {
     ...mapActions([]),
@@ -392,7 +392,18 @@ export default {
           ).scrollHeight;
         }
       }, 0);
-    }
+    },
+
+    getUserPicture(username) {
+      let parti = null;
+      this.users.forEach(user => {
+        if (user.username === username) {
+          parti = user;
+        }
+      });
+
+      return parti.picture_url;
+    },
   },
   watch: {
     // eslint-disable-next-line no-unused-vars

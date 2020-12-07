@@ -42,7 +42,7 @@ export default new Vuex.Store({
       });
     },
     conversation(state, getters) {
-      return getters.conversations.find(state.currentConversationId);
+      return getters.conversations.find(element => element.id == state.currentConversationId);
     }
   },
   mutations: {
@@ -79,11 +79,11 @@ export default new Vuex.Store({
     },
 
     upsertConversation(state, { conversation }) {
-      const localCoonversation = state.conversations.findIndex(
+      const localConversation = state.conversations.findIndex(
           (_conversation) => _conversation.id === conversation.id
       );
-      if (localCoonversation !== -1) {
-        Vue.set(state.conversations, localCoonversation, conversation);
+      if (localConversation !== -1) {
+        Vue.set(state.conversations, localConversation, conversation);
       } else {
         state.conversations.push({
           ...conversation
