@@ -155,6 +155,18 @@
                     class="circular frown outline icon"
                   ></i
                 ></span>
+            <div v-for="(message, index) in conversation.messages" :key="index">
+              <div class="time">{{message.time}}</div>
+              <div :class="{message: true, mine: message.mine}">
+                <div class="bubble top bottom">{{ message.content }}</div>
+                <div class="reacts"></div>
+                <div class="controls">
+                  <div v-if="message.mine === true">
+                    <i title="Supprimer" class="circular trash icon"></i>
+                    <i title="Editer" class="circular edit icon"></i>
+                    <i title="Répondre" class="circular reply icon"></i>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="time">01:32:48</div>
