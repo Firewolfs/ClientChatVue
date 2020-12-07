@@ -1,13 +1,10 @@
 <template>
   <div class="conversation">
     <div class="conversation-header">
-      <!--      <img-->
-      <!--        class="avatar"-->
-      <!--        src="https://source.unsplash.com/FUcupae92P4/100x100"-->
-      <!--      />-->
-      <div class="avatar">
-        <i class="ui users icon"></i>
-      </div>
+            <img
+              class="avatar"
+              :src="conversation"
+            />
 
       <div class="title">
         <div class="ui compact">

@@ -76,8 +76,16 @@ export default new Vuex.Store({
     },
 
     upsertConversation(state, { conversation }) {
-      state.conversations.push(conversation);
-      //TODO
+      const localCoonversation = state.conversations.findIndex(
+          (_conversation) => _conversation.id === conversation.id
+      );
+      if (localCoonversation !== -1) {
+        Vue.set(state.conversations, localCoonversation, conversation);
+      } else {
+        state.conversations.push({
+          ...conversation
+        });
+      }
     }
   },
   actions: {
