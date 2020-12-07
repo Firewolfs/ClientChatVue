@@ -119,7 +119,6 @@ export default new Vuex.Store({
     },
 
     createOneToOneConversation({ commit }, username) {
-
       const promise = Vue.prototype.$client.getOrCreateOneToOneConversation(
         username
       );

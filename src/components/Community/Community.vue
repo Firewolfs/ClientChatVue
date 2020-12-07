@@ -32,7 +32,7 @@
             <button class="ui primary big button" @click="openConversation">
                 <i class="conversation icon"></i>
                 <span v-if="opening">Ouverture ...</span>
-                <span v-else>Ouvrir la conversation</span>
+                <span v-else>Ouvrir la conversation ({{this.selectedUser.length}})</span>
             </button>
         </div>
     </div>
