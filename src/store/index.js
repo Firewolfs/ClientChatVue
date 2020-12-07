@@ -28,13 +28,13 @@ export default new Vuex.Store({
       return state.user;
     },
     users(state) {
-      return state.users.map((user) => ({
+      return state.users.map(user => ({
         ...user
         //TODO
       }));
     },
     conversations(state) {
-      return state.conversations.map((conversation) => {
+      return state.conversations.map(conversation => {
         return {
           ...conversation
           //TODO
@@ -44,6 +44,9 @@ export default new Vuex.Store({
     conversation(state, getters) {
       //TODO
     }
+    // getUser(state) {
+    //   return state
+    // }
   },
   mutations: {
     syncCurrentConversation(state, conversationId) {
@@ -63,7 +66,7 @@ export default new Vuex.Store({
 
     upsertUser(state, { user }) {
       const localUserIndex = state.users.findIndex(
-        (_user) => _user.username === user.username
+        _user => _user.username === user.username
       );
 
       if (localUserIndex !== -1) {
@@ -76,6 +79,7 @@ export default new Vuex.Store({
     },
 
     upsertConversation(state, { conversation }) {
+      state.conversations.push(conversation);
       //TODO
     }
   },
@@ -87,7 +91,7 @@ export default new Vuex.Store({
       commit("setAuthenticating", true);
       Vue.prototype.$client
         .authenticate(username, password)
-        .then((user) => {
+        .then(user => {
           commit("setUser", user);
           localStorage.setItem("username", username);
           localStorage.setItem("password", password);
@@ -124,10 +128,10 @@ export default new Vuex.Store({
       );
 
       promise.then(({ conversation }) => {
-         commit("upsertConversation", {
-           conversation
-         });
-
+        commit("upsertConversation", {
+          conversation
+        });
+        console.log(conversation);
         router.push({
           name: "Conversation",
           params: { id: conversation.id }
@@ -139,21 +143,19 @@ export default new Vuex.Store({
 
     createManyToManyConversation({ commit }, usernames) {
       const promise = Vue.prototype.$client.createManyToManyConversation(
-          usernames
+        usernames
       );
 
       promise.then(({ conversation }) => {
         commit("upsertConversation", {
           conversation
         });
-        console.log(conversation)
 
         router.push({
           name: "Conversation",
           params: { id: conversation.id }
         });
       });
-
 
       return promise;
     }
