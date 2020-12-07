@@ -69,7 +69,7 @@
               <div v-else class="title"><i class="ui small icon circle"> </i> <span v-for="username in convers.participants.filter(parti => parti !== user.username)" :key="username">
                 {{ username }}
               </span></div>
-              <span class="time">01:30:58</span>
+              <span class="time">{{getDate(convers.updated_at)}}</span>
             </div>
             <div class="text">{{ convers.messages[convers.messages.length - 1] }}</div>
           </div>
@@ -113,6 +113,12 @@ export default {
       });
 
       return parti.picture_url;
+    },
+    getDate(date) {
+      //console.log(date);
+      let dateConvUpdate = new Date(date);
+      console.log(dateConvUpdate.getHours());
+      return dateConvUpdate.getHours() + ":" + dateConvUpdate.getMinutes() + ":" + dateConvUpdate.getSeconds()
     }
   },
   computed: {
@@ -124,6 +130,7 @@ export default {
         conv.participants[1].toLowerCase().includes(this.search.toLowerCase())
       );
 
+      filteredConvs.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at))
       return filteredConvs;
     }
   }
