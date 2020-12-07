@@ -18,8 +18,8 @@
       <div class="users">
         <div v-for="(user, index) in filteredUsers" :key="index">
           <div
-            v-bind:class="[selected ? 'selected user' : 'user']"
-            @click="toggleSelected()"
+            v-bind:class="[user.awake ? 'selected user' : 'user']"
+            @click="toggleSelected(user)"
           >
             <img :src="user.picture_url" /><span class="">{{
               user.username
