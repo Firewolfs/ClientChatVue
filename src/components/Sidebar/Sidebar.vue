@@ -34,6 +34,9 @@
         <br />
         <span>Messages</span>
       </div>
+      <div v-if="true" class="blue button" @click="openInfo">
+        <span>Informations</span>
+      </div>
     </div>
     <div class="conversations">
       <div class="conversation-search">
@@ -93,6 +96,9 @@ export default {
     },
     openConversation(id) {
       router.push({ name: "Conversation", params: { id } });
+    },
+    openInfo() {
+      router.push({name: "Info"});
     }
   },
   computed: {
