@@ -12,7 +12,24 @@
       <div class="title">
         <div class="ui compact">
           <i class="icon circle"></i>
-          <span>Groupe: Alice, Bob</span>
+          <span v-if="conversation.participants.length === 2">
+            <span>
+              {{
+                  conversation.participants[1]
+              }}
+            </span>
+          </span>
+          <span v-else>
+            Groupe:
+            <span v-for="(participant, index) in conversation.participants" :key="index">
+              {{
+                index === conversation.participants.length - 1 ? 
+                  participant 
+                    : 
+                  participant + ","
+              }}
+            </span>
+          </span>
           <div class="ui simple dropdown item">
             <i class="vertical ellipsis icon"></i>
 
