@@ -28,13 +28,13 @@ export default new Vuex.Store({
       return state.user;
     },
     users(state) {
-      return state.users.map(user => ({
+      return state.users.map((user) => ({
         ...user
         //TODO
       }));
     },
     conversations(state) {
-      return state.conversations.map(conversation => {
+      return state.conversations.map((conversation) => {
         return {
           ...conversation
           //TODO
@@ -63,7 +63,7 @@ export default new Vuex.Store({
 
     upsertUser(state, { user }) {
       const localUserIndex = state.users.findIndex(
-        _user => _user.username === user.username
+        (_user) => _user.username === user.username
       );
 
       if (localUserIndex !== -1) {
@@ -87,7 +87,7 @@ export default new Vuex.Store({
       commit("setAuthenticating", true);
       Vue.prototype.$client
         .authenticate(username, password)
-        .then(user => {
+        .then((user) => {
           commit("setUser", user);
           localStorage.setItem("username", username);
           localStorage.setItem("password", password);

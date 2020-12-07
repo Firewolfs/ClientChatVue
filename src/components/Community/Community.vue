@@ -50,6 +50,11 @@ export default {
       promise.finally(() => {
         console.log("Conversation ouverte !");
       });
+    },
+    toggleSelected(user) {
+      console.log("Toggle Selected");
+      console.log(user);
+      user.awake = !user.awake;
     }
   },
   computed: {
@@ -67,4 +72,4 @@ export default {
 };
 </script>
 
-<style src="./Community.css" scoped />
+<style src="./Community.css" scoped/>
