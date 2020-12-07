@@ -119,20 +119,42 @@ export default new Vuex.Store({
     },
 
     createOneToOneConversation({ commit }, username) {
+
       const promise = Vue.prototype.$client.getOrCreateOneToOneConversation(
         username
       );
 
       promise.then(({ conversation }) => {
-        // commit("upsertConversation", {
-        //   conversation
-        // });
+         commit("upsertConversation", {
+           conversation
+         });
 
         router.push({
           name: "Conversation",
           params: { id: conversation.id }
         });
       });
+
+      return promise;
+    },
+
+    createManyToManyConversation({ commit }, usernames) {
+      const promise = Vue.prototype.$client.createManyToManyConversation(
+          usernames
+      );
+
+      promise.then(({ conversation }) => {
+        commit("upsertConversation", {
+          conversation
+        });
+        console.log(conversation)
+
+        router.push({
+          name: "Conversation",
+          params: { id: conversation.id }
+        });
+      });
+
 
       return promise;
     }
