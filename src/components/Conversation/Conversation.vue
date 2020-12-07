@@ -64,6 +64,8 @@
       <div class="conversation-main">
         <div class="conversation-body" id="scroll">
           <div class="wrapper">
+            {{messages}}
+
             <div class="time">01:32:08</div>
             <div class="message mine">
               <div class="bubble top bottom">Hello les amis !</div>
@@ -396,7 +398,7 @@ export default {
     this.scrollBottom();
   },
   computed: {
-    ...mapGetters(["conversation", "users"])
+    ...mapGetters(["conversation", "users", "messages"])
   },
   methods: {
     ...mapActions([]),

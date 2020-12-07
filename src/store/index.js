@@ -43,6 +43,14 @@ export default new Vuex.Store({
     },
     conversation(state, getters) {
       return getters.conversations.find(element => element.id == state.currentConversationId);
+    },
+    messages(state, getters) {
+      console.log(
+        getters.conversation.messages
+      );
+      return (getters.conversation.messages = Vue.prototype.$client.on(
+        "messagePosted"
+      ));
     }
   },
   mutations: {

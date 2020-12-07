@@ -56,17 +56,21 @@
       <div v-for="(convers, index) in filterConversations" :key="index">
         <div
           class="conversation new"
-          :title="convers.participants[1]"
+          :title="
+            convers.participants[0] === user.username
+              ? convers.participants[1]
+              : convers.participants[0]
+          "
           @click="openConversation(convers.id)"
         >
           <a class="avatar">
             <i v-if="convers.participants.length > 2" class="ui users icon"></i>
-            <img v-else :src="getUserPicture(convers.participants[1])" />
+            <img v-else :src="getUserPicture(convers.participants[0] === user.username ? convers.participants[1] : convers.participants[0])" />
           </a>
           <div class="content">
             <div class="metadata">
-              <div v-if="convers.participants.length === 2" class="title"><i class="ui small icon circle"> </i> {{ convers.participants[1] }}</div>
-              <div v-else class="title"><i class="ui small icon circle"> </i> <span v-for="username in convers.participants.filter(parti => parti !== user.username)" :key="username">
+              <div v-if="convers.participants.length === 2" class="title"><i class="ui small icon circle"> </i> {{ convers.participants[0] === user.username ? convers.participants[1] : convers.participants[0] }}</div>
+              <div v-else class="title"><i class="ui small icon circle"> </i> Groupe: <span v-for="username in convers.participants.filter(parti => parti !== user.username)" :key="username">
                 {{ username }}
               </span></div>
               <span class="time">{{getDate(convers.updated_at)}}</span>
