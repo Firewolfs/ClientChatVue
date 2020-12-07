@@ -16,7 +16,7 @@
     </div>
     <div>
       <div class="users">
-        <div v-for="(user, index) in users" :key="index">
+        <div v-for="(user, index) in filteredUsers" :key="index">
           <div
             v-bind:class="[selected ? 'selected user' : 'user']"
             @click="toggleSelected()"
@@ -63,7 +63,7 @@ export default {
       let filteredUsers = this.users;
 
       filteredUsers = filteredUsers.filter(user =>
-        user.username.includes(this.search)
+        user.username.toLowerCase().includes(this.search.toLowerCase())
       );
 
       return filteredUsers;
