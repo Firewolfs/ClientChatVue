@@ -1,10 +1,13 @@
 <template>
   <div class="conversation">
+
     <div class="conversation-header">
-            <img
-              class="avatar"
-              :src="conversation"
-            />
+      <div  v-if="conversation.type === 'one_to_one'">
+        <img class="avatar" src="https://source.unsplash.com/FUcupae92P4/100x100"/>
+      </div>
+      <div v-else class="avatar">
+        <i class="ui users icon"></i>
+      </div>
 
       <div class="title">
         <div class="ui compact">

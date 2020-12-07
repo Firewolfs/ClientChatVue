@@ -42,7 +42,7 @@ export default new Vuex.Store({
       });
     },
     conversation(state, getters) {
-      //TODO
+      return getters.conversations.find(state.currentConversationId);
     }
   },
   mutations: {
