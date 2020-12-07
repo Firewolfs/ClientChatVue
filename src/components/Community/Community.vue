@@ -14,7 +14,7 @@
       </div>
     </div>
     <div v-for="(user, index) in users" :key="index" class="users">
-      <div class="selected user">
+      <div v-bind:class="[selected ? 'selected user' : 'user']" @click="toggleSelected()">
         <img :src="user.picture_url" /><span
           class=""
           >{{user.username}}</span
@@ -30,7 +30,9 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Community",
   data() {
-    return {};
+    return {
+      selected: false
+    };
   },
   methods: {
     ...mapActions(["createOneToOneConversation"]),
@@ -40,6 +42,9 @@ export default {
       promise.finally(() => {
         console.log("Conversation ouverte !");
       });
+    },
+    toggleSelected() {
+      this.selected = !this.selected
     }
   },
   computed: {
