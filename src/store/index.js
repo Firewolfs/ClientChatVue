@@ -44,9 +44,6 @@ export default new Vuex.Store({
     conversation(state, getters) {
       //TODO
     }
-    // getUser(state) {
-    //   return state
-    // }
   },
   mutations: {
     syncCurrentConversation(state, conversationId) {
