@@ -18,7 +18,7 @@
       <div class="users">
         <div v-for="(user, index) in filteredUsers" :key="index">
           <div
-            v-bind:class="[user.awake ? 'selected user' : 'user']"
+            :class="[isSelected(user) ? 'selected user': 'user']"
             @click="toggleSelected(user)"
           >
             <img :src="user.picture_url" /><span class="">{{
@@ -38,6 +38,7 @@ export default {
   name: "Community",
   data() {
     return {
+      selectedUser: [],
       selected: false,
       search: ""
     };
@@ -51,10 +52,27 @@ export default {
         console.log("Conversation ouverte !");
       });
     },
+    isSelected(user) {
+      console.log("is selected");
+      return this.selectedUser.includes(user.username);
+    },
     toggleSelected(user) {
       console.log("Toggle Selected");
       console.log(user);
-      user.awake = !user.awake;
+      //console.log(this.selectedUser.includes(user.username));
+      if(!this.selectedUser.includes(user.username)) {
+        console.log("add selected user");
+        this.selectedUser.push(user.username);
+        console.log(this.selectedUser);
+      }
+      else {
+        console.log("delete selected user");
+        const newUserTab = this.selectedUser.filter(us => us !== user.username);
+        this.selectedUser = newUserTab;
+        console.log(this.selectedUser);
+      }
+      //console.log(this.selectedUser.includes(user.username));
+      
     }
   },
   computed: {
