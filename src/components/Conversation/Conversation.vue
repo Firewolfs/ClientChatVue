@@ -76,7 +76,7 @@
       <div class="conversation-main">
         <div class="conversation-body" id="scroll">
           <div class="wrapper">
-            <Message v-for="(message, index) in conversation.messages" :key="index" :content="message.content" :time="getDate(message.posted_at)" :mine="(user.username === message.from? true:false)" :image="getUserPicture(message.from)" :reactions="message.reactions"></Message>
+            <Message v-for="(message, index) in conversation.messages" :key="index" :message_id="message.id" :conv_id="conversation.id" :content="message.content" :time="getDate(message.posted_at)" :mine="(user.username === message.from? true:false)" :image="getUserPicture(message.from)" :reactions="message.reactions"></Message>
           </div>
         </div>
 

@@ -114,8 +114,6 @@ export default new Vuex.Store({
 
       if (conversation === undefined) { return; }
       else {
-        console.log("conversation : ", conversation);
-        console.log("context : ", context);
         conversation.messages.push(context.message);
       }
     },
@@ -126,8 +124,6 @@ export default new Vuex.Store({
 
       if (conversation === undefined) { return; }
       else {
-        console.log("conversation : ", conversation);
-        console.log("context : ", context);
         conversation.messages[context.message.id].reactions = context.message.reactions;
       }
     }
@@ -221,6 +217,7 @@ export default new Vuex.Store({
       );
 
       promise.then(context => {
+        console.log("context postmessage : ", context)
         commit("upsertMessage", {
           context
         });
@@ -255,6 +252,20 @@ export default new Vuex.Store({
       });
 
       return promise;
+    },
+
+    reaction({commit}, {conv_id, message_id, reaction}) {
+      const promise = Vue.prototype.$client.reactMessage(
+        conv_id,
+        message_id,
+        reaction
+      );
+
+      promise.then(conversation => {
+        commit("upsertReaction", {
+          conversation
+        });
+      });
     }
   }
 });

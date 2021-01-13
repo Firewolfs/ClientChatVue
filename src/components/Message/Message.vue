@@ -42,18 +42,22 @@
                     <i title="Répondre" class="circular reply icon"></i>
                     <span class="react">
                         <i 
+                            v-on:click="reaction({conv_id: conv_id, message_id: message_id, reaction: 'HEART'})"
                             title="Aimer" 
                             class="circular heart outline icon">
                         </i>
                         <i
+                            v-on:click="reaction({conv_id: conv_id, message_id: message_id, reaction: 'THUMB'})"
                             title="Pouce en l'air"
                             class="circular thumbs up outline icon">
                         </i>
                         <i
+                            v-on:click="reaction({conv_id: conv_id, message_id: message_id, reaction: 'HAPPY'})"
                             title="Content"
                             class="circular smile outline icon">
                         </i>
                         <i
+                            v-on:click="reaction({conv_id: conv_id, message_id: message_id, reaction: 'SAD'})"
                             title="Pas content"
                             class="circular frown outline icon">
                         </i>
@@ -65,13 +69,19 @@
 </template>
 
 <script>
+    import { mapActions } from "vuex";
     export default {
         props: {
+            message_id: Number,
+            conv_id: Number,
             content: String,
             time: String,
             mine: Boolean,
             image: String,
             reactions: Object
+        },
+        methods: {
+            ...mapActions(["reaction"])
         }
     };
 </script>
