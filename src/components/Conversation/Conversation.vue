@@ -81,6 +81,9 @@
             <div v-for="(message, index) in conversation.messages" :key="index">
               <div class="time">{{ message.posted_at }}</div>
               <div :class="{ message: true, mine: message.mine }">
+                <img 
+                :src="getUserPicture(message.from)"
+                />
                 <div class="bubble top bottom">{{ message.content }}</div>
                 <div class="reacts"></div>
                 <div class="controls">
