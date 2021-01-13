@@ -76,44 +76,7 @@
       <div class="conversation-main">
         <div class="conversation-body" id="scroll">
           <div class="wrapper">
-            <div v-for="(message, index) in conversation.messages" :key="index">
-              <div class="time">{{ getDate(message.posted_at) }}</div>
-              <div
-                :class="{
-                  message: true,
-                  mine: user.username === message.from
-                }"
-              >
-                <img :src="getUserPicture(message.from)" />
-                <div class="bubble top bottom">{{ message.content }}</div>
-                <div class="reacts"></div>
-                <div class="controls">
-                  <div v-if="message.from === user.username">
-                    <i title="Supprimer" class="circular trash icon"></i>
-                    <i title="Editer" class="circular edit icon"></i>
-                    <i title="Répondre" class="circular reply icon"></i>
-                  </div>
-                  <div v-else>
-                    <i title="Répondre" class="circular reply icon"></i>
-                    <span class="react">
-                      <i title="Aimer" class="circular heart outline icon"></i>
-                      <i
-                        title="Pouce en l'air"
-                        class="circular thumbs up outline icon"
-                      ></i>
-                      <i
-                        title="Content"
-                        class="circular smile outline icon"
-                      ></i>
-                      <i
-                        title="Pas content"
-                        class="circular frown outline icon"
-                      ></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Message v-for="(message, index) in conversation.messages" :key="index" :content="message.content" :time="getDate(message.posted_at)" :mine="(user.username === message.from? true:false)" :image="getUserPicture(message.from)"></Message>
           </div>
         </div>
 
@@ -150,10 +113,11 @@
 <script>
 import Group from "@/components/Group/Group";
 import { mapActions, mapGetters } from "vuex";
+import Message from "../Message/Message";
 
 export default {
   name: "Conversation",
-  components: { Group },
+  components: { Message, Group },
   data() {
     return {
       groupPanel: false,
