@@ -131,7 +131,10 @@ export default {
       let filteredConvs = this.conversations;
 
       filteredConvs = filteredConvs.filter(conv =>
-        conv.participants[1].toLowerCase().includes(this.search.toLowerCase())
+        conv.participants
+          .toString()
+          .toLowerCase()
+          .includes(this.search.toLowerCase())
       );
 
       filteredConvs.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at))

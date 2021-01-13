@@ -25,6 +25,12 @@
           title="Enlever de la conversation"
           class="circular times icon link"
           style=""
+          @click="
+            removeParticipant({
+              conversationId: conversation.id,
+              username: participant
+            })
+          "
         ></i>
       </div>
     </div>
@@ -70,7 +76,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["addParticipant"]),
+    ...mapActions(["addParticipant", "removeParticipant"]),
     getUser(username) {
       let parti = null;
       this.users.forEach(user => {
