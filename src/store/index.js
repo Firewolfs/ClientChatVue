@@ -97,6 +97,17 @@ export default new Vuex.Store({
           ...conversation
         });
       }
+    },
+
+    upsertMessage(state, { conversId, messageContent }) {
+      const localConversation = state.conversations.findIndex(
+        _conversation => _conversation.id === conversId
+      );
+
+      if (localConversation !== -1) {
+        console.log(localConversation);
+        //localConversation.messages.push(messageContent);
+      }
     }
   },
   actions: {
@@ -180,6 +191,20 @@ export default new Vuex.Store({
       });
 
       return promise;
+    },
+
+    postMessage({ commit }, { conversation_id, messageContent }) {
+      const promise = Vue.prototype.$client.postMessage(
+        conversation_id,
+        messageContent
+      );
+
+      promise.then(({ conversation_id, messageContent }) => {
+        commit("upsertMessage", {
+          conversation_id,
+          messageContent
+        });
+      });
     }
   }
 });

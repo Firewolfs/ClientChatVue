@@ -1,9 +1,17 @@
 <template>
   <div class="conversation">
-
     <div class="conversation-header">
-      <div  v-if="conversation.type === 'one_to_one'">
-        <img class="avatar" :src="getUserPicture(conversation.participants[1])"/>
+      <div v-if="conversation.type === 'one_to_one'">
+        <img
+          class="avatar"
+          :src="
+            getUserPicture(
+              conversation.participants[0] === user.username
+                ? conversation.participants[1]
+                : conversation.participants[0]
+            )
+          "
+        />
       </div>
       <div v-else class="avatar">
         <i class="ui users icon"></i>
@@ -15,18 +23,22 @@
           <span v-if="conversation.participants.length === 2">
             <span>
               {{
-                  conversation.participants[1]
+                conversation.participants[0] == user.username
+                  ? conversation.participants[1]
+                  : conversation.participants[0]
               }}
             </span>
           </span>
           <span v-else>
             Groupe:
-            <span v-for="(participant, index) in conversation.participants" :key="index">
+            <span
+              v-for="(participant, index) in conversation.participants"
+              :key="index"
+            >
               {{
-                index === conversation.participants.length - 1 ? 
-                  participant 
-                    : 
-                  participant + ","
+                index === conversation.participants.length - 1
+                  ? participant
+                  : participant + ","
               }}
             </span>
           </span>
@@ -59,6 +71,7 @@
         </div>
       </div>
     </div>
+
     <div class="conversation-container">
       <div class="conversation-main">
         <div class="conversation-body" id="scroll">
@@ -80,9 +93,18 @@
                     <i title="Répondre" class="circular reply icon"></i>
                     <span class="react">
                       <i title="Aimer" class="circular heart outline icon"></i>
-                      <i title="Pouce en l'air" class="circular thumbs up outline icon"></i>
-                      <i title="Content" class="circular smile outline icon"></i>
-                      <i title="Pas content" class="circular frown outline icon"></i>
+                      <i
+                        title="Pouce en l'air"
+                        class="circular thumbs up outline icon"
+                      ></i>
+                      <i
+                        title="Content"
+                        class="circular smile outline icon"
+                      ></i>
+                      <i
+                        title="Pas content"
+                        class="circular frown outline icon"
+                      ></i>
                     </span>
                   </div>
                 </div>
@@ -96,10 +118,21 @@
             </div>
             <div class="conversation-footer">
               <div class="wrapper">
-                <p><i title="Abandonner" class="circular times small icon link"></i>Répondre à Alice :<span>On peut même éditer ou supprimer des messages !</span></p>
                 <div class="ui fluid search">
                   <div class="ui icon input">
-                    <input class="prompt" type="text" placeholder="Rédiger un message"/><i class="send icon"></i>
+                    <input
+                      v-model="messageContent"
+                      class="prompt"
+                      type="text"
+                      placeholder="Rédiger un message"
+                      @keypress.enter="
+                        postMessage({
+                          conversation_id: conversation.id,
+                          messageContent: messageContent
+                        })
+                      "
+                    />
+                    <i class="send icon"></i>
                   </div>
                 </div>
               </div>
@@ -123,7 +156,8 @@ export default {
   components: { Group },
   data() {
     return {
-      groupPanel: false
+      groupPanel: false,
+      messageContent: ""
     };
   },
   mounted() {
@@ -133,10 +167,10 @@ export default {
     this.scrollBottom();
   },
   computed: {
-    ...mapGetters(["conversation", "users", "messages"])
+    ...mapGetters(["conversation", "users", "messages", "user"])
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(["postMessage"]),
     scrollBottom() {
       setTimeout(() => {
         let scrollElement = document.querySelector("#scroll");
@@ -157,7 +191,7 @@ export default {
       });
 
       return parti.picture_url;
-    },
+    }
   },
   watch: {
     // eslint-disable-next-line no-unused-vars

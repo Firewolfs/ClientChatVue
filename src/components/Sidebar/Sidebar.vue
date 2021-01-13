@@ -75,7 +75,7 @@
               </span></div>
               <span class="time">{{getDate(convers.updated_at)}}</span>
             </div>
-            <div class="text">{{ convers.messages[convers.messages.length - 1] }}</div>
+<!--            <div class="text">{{ convers.messages[convers.messages.length - 1] }}</div>-->
           </div>
         </div>
       </div>
