@@ -6,6 +6,7 @@
           type="text"
           placeholder="Rechercher un utilisateur"
           class="prompt"
+          v-model="search"
         /><i class="search icon"></i>
       </div>
     </div>
@@ -15,9 +16,9 @@
       <hr />
     </div>
 
-    <div v-for="participant in conversation.participants" :key="getUser(participant)">
+    <div v-for="participant in filterParticipants" :key="getUser(participant).id">
       <div class="user">
-        <img src="https://source.unsplash.com/mK_sjD0FrXw/100x100" /><span
+        <img :src="getUser(participant).picture_url" /><span
           >{{ participant }}<br /><i class="nickname"></i></span
         ><i title="Modifier le surnom" class="circular quote left link icon"></i
         ><i
@@ -33,10 +34,10 @@
       <span>Communauté</span>
       <hr />
     </div>
-    <div v-for="user in users" :key="getUser(user)">
+    <div v-for="user in users" :key="user.id">
       <div v-if="!conversation.participants.includes(user.username)">
         <div class="user">
-          <span>{{user.username}}</span>
+          <span>{{ user.username }}</span>
           <i title="Ajouter à la conversation" class="circular plus icon link"></i>
         </div>
       </div>
@@ -55,19 +56,29 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["conversation", "users"])
+    ...mapGetters(["conversation", "users"]),
+    filterParticipants() {
+      let filteredParti = this.conversation.participants;
+
+      filteredParti = filteredParti.filter(conv =>
+        conv.toLowerCase().includes(this.search.toLowerCase())
+      );
+
+      //filteredParti.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at))
+      return filteredParti;
+    }
   },
   methods: {
     ...mapActions([]),
     getUser(username) {
-      let userParti = null;
+      let parti = null;
       this.users.forEach(user => {
         if (user.username === username) {
-          userParti = user;
+          parti = user;
         }
       });
 
-      return userParti;
+      return parti;
     }
   }
 };
