@@ -71,7 +71,6 @@ export default {
         conv.toLowerCase().includes(this.search.toLowerCase())
       );
 
-      //filteredParti.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at))
       return filteredParti;
     }
   },

@@ -91,14 +91,6 @@ export default new Vuex.Store({
           (_conversation) => _conversation.id === conversation.id
       );
       if (localConversation !== -1) {
-        const convers = state.conversations.find(
-          conv => conv.id === conversation.id
-        );
-        if (convers.participants !== conversation.participants) {
-          convers.participants = conversation.participants;
-          state.conversations[localConversation] = convers;
-        }
-
         Vue.set(state.conversations, localConversation, conversation);
       } else {
         state.conversations.push({
@@ -217,7 +209,6 @@ export default new Vuex.Store({
       );
 
       promise.then(context => {
-        console.log("context postmessage : ", context)
         commit("upsertMessage", {
           context
         });
@@ -226,14 +217,14 @@ export default new Vuex.Store({
       return promise;
     },
 
-    addParticipant({commit}, { conversation_id, participant }) {
+    addParticipant({ commit }, { conversation_id, participant }) {
       const promise = Vue.prototype.$client.addParticipant(
         conversation_id,
         participant
       );
 
-      promise.then((context) => {
-        commit("upsertConversation", { context })
+      promise.then(({ conversation }) => {
+        commit("upsertConversation", { conversation })
       });
 
       return promise;

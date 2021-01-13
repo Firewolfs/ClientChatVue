@@ -73,9 +73,9 @@
               <div v-else class="title"><i class="ui small icon circle"> </i> Groupe: <span v-for="username in convers.participants.filter(parti => parti !== user.username)" :key="username">
                 {{ username }}
               </span></div>
-              <span class="time">{{getDate(convers.updated_at)}}</span>
+              <span class="time">{{ getDate(convers.updated_at) }}</span>
             </div>
-<!--            <div class="text">{{ convers.messages[convers.messages.length - 1] }}</div>-->
+            <div class="text">{{ getLastMessage(convers.messages) }}</div>
           </div>
         </div>
       </div>
@@ -123,12 +123,17 @@ export default {
       let dateConvUpdate = new Date(date);
       console.log(dateConvUpdate.getHours());
       return dateConvUpdate.getHours() + ":" + dateConvUpdate.getMinutes() + ":" + dateConvUpdate.getSeconds()
+    },
+    getLastMessage(messages) {
+      if (messages.length !== 0) {
+        return messages[messages.length - 1].content
+      } else { return ""; }
     }
   },
   computed: {
     ...mapGetters(["user", "conversations", "users"]),
     filterConversations() {
-      let filteredConvs = this.conversations;
+      let filteredConvs = [...this.conversations];
 
       filteredConvs = filteredConvs.filter(conv =>
         conv.participants
