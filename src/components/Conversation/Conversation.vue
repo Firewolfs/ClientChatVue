@@ -76,18 +76,16 @@
       <div class="conversation-main">
         <div class="conversation-body" id="scroll">
           <div class="wrapper">
-            <h1>{{ conversation }}</h1>
-
             <div v-for="(message, index) in conversation.messages" :key="index">
               <div class="time">{{ message.posted_at }}</div>
-              <div :class="{ message: true, mine: message.mine }">
+              <div :class="{ message: true, mine: (user.username === message.from? true:false) }">
                 <img 
                 :src="getUserPicture(message.from)"
                 />
                 <div class="bubble top bottom">{{ message.content }}</div>
                 <div class="reacts"></div>
                 <div class="controls">
-                  <div v-if="message.mine === true">
+                  <div v-if="message.from === user.username">
                     <i title="Supprimer" class="circular trash icon"></i>
                     <i title="Editer" class="circular edit icon"></i>
                     <i title="Répondre" class="circular reply icon"></i>
