@@ -114,9 +114,22 @@ export default new Vuex.Store({
 
       if (conversation === undefined) { return; }
       else {
+        console.log("conversation : ", conversation);
+        console.log("context : ", context);
         conversation.messages.push(context.message);
       }
+    },
+    upsertReaction(state, context) {
+      const conversation = state.conversations.find(
+        conv => conv.id === context.conversation_id
+      );
 
+      if (conversation === undefined) { return; }
+      else {
+        console.log("conversation : ", conversation);
+        console.log("context : ", context);
+        conversation.messages[context.message.id].reactions = context.message.reactions;
+      }
     }
   },
   actions: {
@@ -222,7 +235,7 @@ export default new Vuex.Store({
         participant
       );
 
-      promise.then(({context}) => {
+      promise.then((context) => {
         commit("upsertConversation", { context })
       });
 
