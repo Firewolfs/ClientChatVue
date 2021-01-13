@@ -37,8 +37,9 @@
     <div v-for="user in users" :key="user.id">
       <div v-if="!conversation.participants.includes(user.username)">
         <div class="user">
+          <img :src="user.picture_url"/>
           <span>{{ user.username }}</span>
-          <i title="Ajouter à la conversation" class="circular plus icon link"></i>
+          <i v-on:click="addParticipant({conversation_id: conversation.id, participant: user.username})" title="Ajouter à la conversation" class="circular plus icon link"></i>
         </div>
       </div>
     </div>
@@ -69,7 +70,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(["addParticipant"]),
     getUser(username) {
       let parti = null;
       this.users.forEach(user => {

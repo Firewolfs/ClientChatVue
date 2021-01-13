@@ -207,6 +207,19 @@ export default new Vuex.Store({
       });
 
       return promise;
+    },
+
+    addParticipant({commit}, { conversation_id, participant }) {
+      const promise = Vue.prototype.$client.addParticipant(
+        conversation_id,
+        participant
+      );
+
+      promise.then(({context}) => {
+        commit("upsertConversation", { context })
+      });
+
+      return promise;
     }
   }
 });
