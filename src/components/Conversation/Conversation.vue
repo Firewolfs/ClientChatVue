@@ -77,11 +77,11 @@
         <div class="conversation-body" id="scroll">
           <div class="wrapper">
             <div v-for="(message, index) in conversation.messages" :key="index">
-              <div class="time">{{ message.posted_at }}</div>
+              <div class="time">{{ getDate(message.posted_at) }}</div>
               <div
                 :class="{
                   message: true,
-                  mine: user.username === message.from ? true : false
+                  mine: user.username === message.from
                 }"
               >
                 <img :src="getUserPicture(message.from)" />
@@ -191,6 +191,17 @@ export default {
       });
 
       return parti.picture_url;
+    },
+
+    getDate(date) {
+      let localDate = new Date(date);
+      return (
+        localDate.getHours() +
+        ":" +
+        localDate.getMinutes() +
+        ":" +
+        localDate.getSeconds()
+      );
     },
 
     clearInput() { this.messageContent = ""; }
