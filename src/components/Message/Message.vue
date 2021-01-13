@@ -34,7 +34,7 @@
             </div>
             <div class="controls">
                 <div v-if="mine">
-                    <i title="Supprimer" class="circular trash icon"></i>
+                    <i v-on:click="deleteMessage({conv_id: conv_id, message_id: message_id})" title="Supprimer" class="circular trash icon"></i>
                     <i title="Editer" class="circular edit icon"></i>
                     <i title="Répondre" class="circular reply icon"></i>
                 </div>
@@ -81,7 +81,7 @@
             reactions: Object
         },
         methods: {
-            ...mapActions(["reaction"])
+            ...mapActions(["reaction", "deleteMessage"])
         }
     };
 </script>

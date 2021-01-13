@@ -118,6 +118,25 @@ export default new Vuex.Store({
       else {
         conversation.messages[context.message.id].reactions = context.message.reactions;
       }
+    },
+
+    deleteMessage(state, context) {
+      const conversation = state.conversations.find(
+        conv => conv.id === context.conversation_id
+      );
+
+      const indexConversation = state.conversations.findIndex(
+        conv => conv.id === context.conversation_id
+      );
+
+      if (conversation === undefined) { return; }
+      else {
+        console.log("Conversation : ", conversation);
+        console.log("Context : ", context);
+        var filteredConv = conversation.messages.filter(msg => msg.id !== context.message_id);
+        //var filteredConv = conversation.messages.splice(context.message_id, 1);
+        state.conversations[indexConversation].messages = filteredConv;
+      }
     }
   },
   actions: {
@@ -223,7 +242,7 @@ export default new Vuex.Store({
         participant
       );
 
-      promise.then(({ conversation }) => {
+      promise.then((conversation) => {
         commit("upsertConversation", { conversation })
       });
 
@@ -257,6 +276,19 @@ export default new Vuex.Store({
           conversation
         });
       });
+    },
+
+    deleteMessage({commit}, {conv_id, message_id}) {
+      const promise = Vue.prototype.$client.deleteMessage(
+        conv_id,
+        message_id
+      );
+
+      promise.then(conversation => {
+        commit("deleteMessage", {
+          conversation
+        })
+      })
     }
   }
 });

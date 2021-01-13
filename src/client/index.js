@@ -59,7 +59,7 @@ export default function install(Vue, store) {
   });
 
   client.on("messageDeleted", async ({ conversation_id, message_id }) => {
-    //TODO
+    store.commit("deleteMessage", { conversation_id, message_id});
   });
 
   client.on("usersAvailable", async ({ usernames }) => {
