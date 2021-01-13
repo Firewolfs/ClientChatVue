@@ -91,6 +91,7 @@ export default new Vuex.Store({
           (_conversation) => _conversation.id === conversation.id
       );
       if (localConversation !== -1) {
+        console.log(localConversation);
         Vue.set(state.conversations, localConversation, conversation);
       } else {
         state.conversations.push({
@@ -99,15 +100,16 @@ export default new Vuex.Store({
       }
     },
 
-    upsertMessage(state, { conversId, messageContent }) {
-      const localConversation = state.conversations.findIndex(
-        _conversation => _conversation.id === conversId
+    upsertMessage(state, context) {
+      const conversation = state.conversations.find(
+        conv => conv.id === context.conversation_id
       );
 
-      if (localConversation !== -1) {
-        console.log(localConversation);
-        //localConversation.messages.push(messageContent);
+      if (conversation === undefined) { return; }
+      else {
+        conversation.messages.push(context.message);
       }
+
     }
   },
   actions: {
@@ -164,7 +166,6 @@ export default new Vuex.Store({
         commit("upsertConversation", {
           conversation
         });
-        console.log(conversation);
         router.push({
           name: "Conversation",
           params: { id: conversation.id }
@@ -199,12 +200,13 @@ export default new Vuex.Store({
         messageContent
       );
 
-      promise.then(({ conversation_id, messageContent }) => {
+      promise.then(context => {
         commit("upsertMessage", {
-          conversation_id,
-          messageContent
+          context
         });
       });
+
+      return promise;
     }
   }
 });

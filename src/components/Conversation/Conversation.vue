@@ -78,10 +78,13 @@
           <div class="wrapper">
             <div v-for="(message, index) in conversation.messages" :key="index">
               <div class="time">{{ message.posted_at }}</div>
-              <div :class="{ message: true, mine: (user.username === message.from? true:false) }">
-                <img 
-                :src="getUserPicture(message.from)"
-                />
+              <div
+                :class="{
+                  message: true,
+                  mine: user.username === message.from ? true : false
+                }"
+              >
+                <img :src="getUserPicture(message.from)" />
                 <div class="bubble top bottom">{{ message.content }}</div>
                 <div class="reacts"></div>
                 <div class="controls">
@@ -111,38 +114,34 @@
                 </div>
               </div>
             </div>
-
-            <div class="typing">
-              <div class="wrapper">
-                Alice est en train d'écrire...
-              </div>
-            </div>
-            <div class="conversation-footer">
-              <div class="wrapper">
-                <div class="ui fluid search">
-                  <div class="ui icon input">
-                    <input
-                      v-model="messageContent"
-                      class="prompt"
-                      type="text"
-                      placeholder="Rédiger un message"
-                      @keypress.enter="
-                        postMessage({
-                          conversation_id: conversation.id,
-                          messageContent: messageContent
-                        })
-                      "
-                    />
-                    <i class="send icon"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="conversation-sidebar" v-if="groupPanel">
-            <Group />
           </div>
         </div>
+
+        <div class="conversation-footer">
+          <div class="wrapper">
+            <div class="ui fluid search">
+              <div class="ui icon input">
+                <input
+                  v-model="messageContent"
+                  class="prompt"
+                  type="text"
+                  placeholder="Rédiger un message"
+                  @keyup.enter="
+                    postMessage({
+                      conversation_id: conversation.id,
+                      messageContent: messageContent
+                    }),
+                      clearInput()
+                  "
+                />
+                <i class="send icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="conversation-sidebar" v-if="groupPanel">
+        <Group :conversation="conversation" />
       </div>
     </div>
   </div>
@@ -192,7 +191,9 @@ export default {
       });
 
       return parti.picture_url;
-    }
+    },
+
+    clearInput() { this.messageContent = ""; }
   },
   watch: {
     // eslint-disable-next-line no-unused-vars

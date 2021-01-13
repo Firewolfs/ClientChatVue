@@ -14,45 +14,20 @@
       <span>Participants</span>
       <hr />
     </div>
-    <div class="user">
-      <img src="https://source.unsplash.com/mK_sjD0FrXw/100x100" /><span
-        >Alice<br /><i class="nickname"></i></span
-      ><i title="Modifier le surnom" class="circular quote left link icon"></i
-      ><i
-        title="Enlever de la conversation"
-        class="circular times icon link"
-        style=""
-      ></i>
+
+    <div v-for="participant in conversation.participants" :key="getUser(participant)">
+      <div class="user">
+        <img src="https://source.unsplash.com/mK_sjD0FrXw/100x100" /><span
+          >{{ participant }}<br /><i class="nickname"></i></span
+        ><i title="Modifier le surnom" class="circular quote left link icon"></i
+        ><i
+          title="Enlever de la conversation"
+          class="circular times icon link"
+          style=""
+        ></i>
+      </div>
     </div>
-    <div class="user">
-      <img src="https://source.unsplash.com/7omHUGhhmZ0/100x100" /><span
-        >Bob<br /><i class="nickname"></i></span
-      ><i title="Modifier le surnom" class="circular quote left link icon"></i
-      ><i
-        title="Enlever de la conversation"
-        class="circular times icon link"
-        style=""
-      ></i>
-    </div>
-    <div class="user">
-      <img src="https://source.unsplash.com/FUcupae92P4/100x100" /><span
-        >Derek<br /><i class="nickname"></i></span
-      ><i title="Modifier le surnom" class="circular quote left link icon"></i
-      ><i
-        title="Enlever de la conversation"
-        class="circular times icon link"
-      ></i>
-    </div>
-    <div class="user">
-      <img src="https://source.unsplash.com/OYH7rc2a3LA/100x100" /><span
-        >Gael<br /><i class="nickname"></i></span
-      ><i title="Modifier le surnom" class="circular quote left link icon"></i
-      ><i
-        title="Enlever de la conversation"
-        class="circular times icon link"
-        style=""
-      ></i>
-    </div>
+
     <div class="spanner">
       <hr />
       <span>Communauté</span>
@@ -88,14 +63,24 @@ export default {
   name: "Group",
   data() {
     return {
-      search: ""
+      search: "",
     };
   },
   computed: {
-    ...mapGetters([])
+    ...mapGetters(["conversation"])
   },
   methods: {
-    ...mapActions([])
+    ...mapActions([]),
+    getUser(username) {
+      let userParti = null;
+      this.users.forEach(user => {
+        if (user.username === username) {
+          userParti = user;
+        }
+      });
+
+      return userParti;
+    }
   }
 };
 </script>
