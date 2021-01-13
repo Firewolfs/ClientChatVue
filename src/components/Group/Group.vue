@@ -33,25 +33,13 @@
       <span>Communauté</span>
       <hr />
     </div>
-    <div class="user">
-      <img src="https://source.unsplash.com/8wbxjJBrl3k/100x100" /><span
-        >Cha</span
-      ><i title="Ajouter à la conversation" class="circular plus icon link"></i>
-    </div>
-    <div class="user">
-      <img src="https://source.unsplash.com/4U1x6459Q-s/100x100" /><span
-        >Emilio</span
-      ><i title="Ajouter à la conversation" class="circular plus icon link"></i>
-    </div>
-    <div class="user">
-      <img src="https://source.unsplash.com/3402kvtHhOo/100x100" /><span
-        >Fabrice</span
-      ><i title="Ajouter à la conversation" class="circular plus icon link"></i>
-    </div>
-    <div class="user">
-      <img src="https://source.unsplash.com/tNCH0sKSZbA/100x100" /><span
-        >Benji</span
-      ><i title="Ajouter à la conversation" class="circular plus icon link"></i>
+    <div v-for="user in users" :key="getUser(user)">
+      <div v-if="!conversation.participants.includes(user.username)">
+        <div class="user">
+          <span>{{user.username}}</span>
+          <i title="Ajouter à la conversation" class="circular plus icon link"></i>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -67,7 +55,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["conversation"])
+    ...mapGetters(["conversation", "users"])
   },
   methods: {
     ...mapActions([]),
